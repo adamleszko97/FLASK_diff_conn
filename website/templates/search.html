@@ -1,6 +1,19 @@
 {% extends "base.html" %} {% block title %}Search{% endblock %} {% block
     content %}
 
-<h1>Search tab</h1>
+    <form method="POST">
+        <h3 align="center">Search</h3>
+        <div class="form-group">
+          <label for="email">Search email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email_search"
+            name="email_search"
+            placeholder="Enter Email"
+          />
+        </div>
+        
+        <center><button type="submit" class="btn btn-primary">Search</button></center>
 
     {% endblock%}
