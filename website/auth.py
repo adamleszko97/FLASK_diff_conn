@@ -19,7 +19,7 @@ def login():
         if user:
             if user.password == password:
                 flash('Logged in successfully!')
-                #login_user(user, remember=True)
+                login_user(user, remember=True)
                 return redirect(url_for('views.search'))
             else:
                 flash('Incorrect Password', category='error')
@@ -28,7 +28,7 @@ def login():
     return render_template("login.html")
 
 @auth.route('/logout')
-#@login_required
+@login_required
 def logout():
-    #logout_user()
+    logout_user()
     return redirect(url_for('auth.login'))

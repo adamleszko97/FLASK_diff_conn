@@ -8,7 +8,7 @@ def home():
     return render_template("home.html")
 
 @views.route('/search')
-#@login_required
+@login_required
 def search():
     return render_template("search.html")
 

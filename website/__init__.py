@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 db = SQLAlchemy()
+login = LoginManager()
 
 def create_app():
     app = Flask(__name__)
@@ -12,6 +13,9 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     db.init_app(app)
+
+    login.init_app(app)
+    login.login_view = 'auth.login'
 
     from .views import views
     from .auth import auth
