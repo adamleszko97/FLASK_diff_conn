@@ -13,7 +13,6 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     db.init_app(app)
-
     login.init_app(app)
     login.login_view = 'auth.login'
 
