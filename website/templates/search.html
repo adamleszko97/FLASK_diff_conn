@@ -20,6 +20,7 @@
           <table class="table">
             <thead>
             <tr>
+              <th scope="col">ID</th>
               <th scope="col">Name</th>
               <th scope="col">Phone Number</th>
               <th scope="col">Department</th>
@@ -28,6 +29,7 @@
         {% for employee in rows: %}
           <tbody>
         <tr>
+          <td>{{ employee.id }}</td>
           <td>{{ employee.name }}</td>
           <td>{{ employee.phone_number }}</td>
           <td>{{ employee.department }}</td>
