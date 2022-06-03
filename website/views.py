@@ -13,6 +13,7 @@ def home():
 @login_required
 def search():
 
+    result=[]
 
     if request.method == 'POST':
         name_form = request.form.get('name_search')
