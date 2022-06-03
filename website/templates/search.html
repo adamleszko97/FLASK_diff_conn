@@ -4,16 +4,35 @@
     <form method="POST">
         <h3 align="center">Search</h3>
         <div class="form-group">
-          <label for="email">Search email</label>
+          <label for="Name">Search by Name</label>
           <input
-            type="email"
+            type="search"
             class="form-control"
-            id="email_search"
-            name="email_search"
-            placeholder="Enter Email"
+            id="name_search"
+            name="name_search"
+            placeholder="Search name"
           />
         </div>
         
         <center><button type="submit" class="btn btn-primary">Search</button></center>
+
+        {% if employee %}
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Phone Number</th>
+              <th>Department</th>
+            </tr>
+        {% for employee in result: %}
+
+        <tr>
+          <td>{{ employee.name }}</td>
+          <td>{{ employee.phone_number }}</td>
+          <td>{{ employee.department }}</td>
+        </tr>
+        {% endfor %}
+        </table>
+        {% endif %}
+
 
     {% endblock%}

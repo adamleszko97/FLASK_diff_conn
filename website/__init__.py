@@ -15,6 +15,7 @@ def create_app():
     db.init_app(app)
     login.init_app(app)
     login.login_view = 'auth.login'
+    
 
     from .views import views
     from .auth import auth
