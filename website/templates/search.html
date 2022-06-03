@@ -16,14 +16,14 @@
         
         <center><button type="submit" class="btn btn-primary">Search</button></center>
 
-        {% if employee %}
+        {% if rows %}
           <table>
             <tr>
               <th>Name</th>
               <th>Phone Number</th>
               <th>Department</th>
             </tr>
-        {% for employee in result: %}
+        {% for employee in rows: %}
 
         <tr>
           <td>{{ employee.name }}</td>

@@ -30,5 +30,5 @@ def search():
             flash('Please provide more than 2 characters', category='error')
         
         
-    return render_template("search.html", user=current_user)
+    return render_template("search.html", user=current_user, rows=result)
 
