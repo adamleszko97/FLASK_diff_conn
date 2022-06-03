@@ -15,21 +15,24 @@
         </div>
         
         <center><button type="submit" class="btn btn-primary">Search</button></center>
-
+        <br />
         {% if rows %}
-          <table>
+          <table class="table">
+            <thread>
             <tr>
-              <th>Name</th>
-              <th>Phone Number</th>
-              <th>Department</th>
+              <th scope="col">Name</th>
+              <th scope="col">Phone Number</th>
+              <th scope="col">Department</th>
             </tr>
+          </thread>
         {% for employee in rows: %}
-
+          <tbody>
         <tr>
           <td>{{ employee.name }}</td>
           <td>{{ employee.phone_number }}</td>
           <td>{{ employee.department }}</td>
         </tr>
+        </tbody>
         {% endfor %}
         </table>
         {% endif %}
