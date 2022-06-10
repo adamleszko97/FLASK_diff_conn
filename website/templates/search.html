@@ -1,43 +1,61 @@
 {% extends "base.html" %} {% block title %}Search{% endblock %} {% block
-    content %}
+  content %}
 
-    <form method="POST">
-        <h3 align="center">Search</h3>
-        <div class="form-group">
-          <label for="Name">Search by Name</label>
-          <input
-            type="search"
-            class="form-control"
-            id="name_search"
-            name="name_search"
-            placeholder="Search name"
-          />
-        </div>
-        
-        <center><button type="submit" class="btn btn-primary">Search</button></center>
-        <br />
-        {% if rows %}
-          <table class="table">
-            <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Phone Number</th>
-              <th scope="col">Department</th>
-            </tr>
-          </thead>
-        {% for employee in rows: %}
-          <tbody>
-        <tr>
-          <td>{{ employee.id }}</td>
-          <td>{{ employee.name }}</td>
-          <td>{{ employee.phone_number }}</td>
-          <td>{{ employee.department }}</td>
-        </tr>
-        </tbody>
-        {% endfor %}
-        </table>
-        {% endif %}
+  <form method="POST">
+      <h3 align="center">Search</h3>
+      <div class="form-group">
+        <label for="Name">Search by Name</label>
+        <input
+          type="search"
+          class="form-control"
+          id="name_search"
+          name="name_search"
+          placeholder="Search name"
+        />
+      </div>
+      <center>
+      <input type="submit" class="btn btn-primary" value="Search" name="Search"/>
+      &nbsp&nbsp
+      <input type="submit" class="btn btn-primary" value="Search All" name="Search All"/>
+      </center>
+      <br />
+    </form>
+      {% if rows %}
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Department</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+      {% for employee in rows.items: %}
+        <tbody>
+      <tr>
+        <td>{{ employee.id }}</td>
+        <td>{{ employee.first_name }} {{ employee.last_name }}</td>
+        <td>{{ employee.phone_number }}</td>
+        <td>{{ employee.department }}</td>
+        <td><button type="button" class="btn btn-danger" onclick="deleteEmployee({{ employee.id }})">Delete Employee</button></td>
+      </tr>
+      </tbody>
+      {% endfor %}
+      </table>
+      {% for page_num in rows.iter_pages(left_edge=3, right_edge=3, left_current=3, right_current=4): %}
+
+      {% if page_num %}
+      {% if rows.page == page_num %}
+      <a class="btn btn-info mb-4" href="{{ url_for('views.search', page=page_num) }}">{{ page_num }}</a>
+      {% else: %}
+      <a class="btn btn-outline-info mb-4" href="{{ url_for('views.search', page=page_num) }}">{{ page_num }}</a>
+      {% endif %}
+      {% else: %}
+      ...
+      {% endif %}
+      {% endfor %}
+      {% endif %}
 
 
-    {% endblock%}
+  {% endblock%}

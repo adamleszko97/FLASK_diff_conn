@@ -1,6 +1,7 @@
 from . import db
 from flask_login import UserMixin
 from . import login
+from sqlalchemy import Column, String, Integer, VARCHAR, BigInteger
 
 
 class users(db.Model, UserMixin):
@@ -10,7 +11,8 @@ class users(db.Model, UserMixin):
 
 class employees(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.VARCHAR(45))
+    first_name = db.Column(db.VARCHAR(45))
+    last_name = db.Column(db.VARCHAR(45))
     phone_number = db.Column(db.BigInteger)
     department = db.Column(db.VARCHAR(45))
 

@@ -9,7 +9,7 @@ login = LoginManager()
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'asdf'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://ale@mysqlserverale:Test12345!@mysqlserverale.mysql.database.azure.com/test'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pymssql://ale:Test12345!@sqlflasktest.database.windows.net/test'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     db.init_app(app)

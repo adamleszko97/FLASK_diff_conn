@@ -19,7 +19,7 @@ def login():
             if user.password == password:
                 flash('Logged in successfully!')
                 login_user(user, remember=True)
-                return redirect(url_for('views.search'))
+                return redirect(url_for('views.home'))
             else:
                 flash('Incorrect Password', category='error')
         else:
