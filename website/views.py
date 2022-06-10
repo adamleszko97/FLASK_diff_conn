@@ -47,8 +47,11 @@ def search():
 @login_required
 def add_employee():
 
-    department_list = employees.query.with_entities(employees.department).distinct()
+    # department_list = employees.query.with_entities(employees.department).distinct()
+    # formated_deptlist = []
 
+    raw_data = employees.query.with_entities(employees.department).distinct()
+    department_list = [item[0] for item in raw_data]
 
     if request.method == 'POST':
         name_add = request.form.get('add_name')
