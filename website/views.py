@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import VARCHAR
 from .models import employees
 from . import db
 import json
@@ -13,42 +14,78 @@ def home():
 
 @views.route('/search', methods=['GET', 'POST'])
 @login_required
+
 def search():
 
     result=[]
+    default_page = 2
     page = request.args.get('page', 1, type=int)
+    search_value = request.args.get('search_value')
+    search_type = request.args.get('search_type')
+    name_form = request.form.get('name_search')
 
-    if request.method == 'POST':
-        name_form = request.form.get('name_search')
+    if page >= 1 and search_type == 'search_one':
+        name_form = search_value
+        result=search_one(page, name_form)
+        
+    elif page >= 1 and search_type == 'search_all':
+        result=search_all(page)
 
-        if request.form.get('Search') == 'Search':
-            name_form = request.form.get('name_search')
+    if request.method == 'POST' and request.form.get('Search') == 'Search':
 
-            if(len(name_form) > 2):
-                result = employees.query.filter(employees.first_name.contains(name_form)).order_by(employees.id).paginate(page=page, per_page=20)
-            
-                if result:
-                    flash('Users found!')
+        search_type='search_one'
+        search_value=name_form
+        result=search_one(page, name_form)
 
-                else:
-                    flash('Users not found', category='error')  
+        if search_type == 'search_all':
+            default_page=1    
+        else:
+            default_page= result.page
 
-            else:
-                flash('Please provide more than 2 characters', category='error')
+    if request.method == 'POST' and request.form.get('Search All') == 'Search All':
+ 
+        search_type='search_all'
+        result=search_all(page)
 
-        elif request.form.get('Search All') == 'Search All':
-            flash('All employees listed')
-            result = employees.query.order_by(employees.last_name.asc()).paginate(page=page, per_page=20)
+        if search_type == 'search_one':
+            default_page = 1
+        else:
+            default_page = result.page
+
+        flash('All employees listed')
+
+    return render_template("search.html", user=current_user, result=result, search_value=search_value, search_type=search_type, default_page=default_page)
+
+
+def search_one(page, name_form):
+
+    result=[]
+    if(len(name_form) > 2):
+        result = employees.query.filter(employees.first_name.contains(name_form)).order_by(employees.id).paginate(page=page, per_page=2)
+
+        if result:
+                flash('Users found!')
+
+        else:
+                flash('Users not found', category='error')
+
+    else:
+        flash('Please provide more than 2 characters', category='error')
+
+    return result
     
-    return render_template("search.html", user=current_user, rows=result)
+
+def search_all(page):
+
+    result = employees.query.order_by(employees.last_name.asc()).paginate(page=page, per_page=20)
+    
+    return result
 
 
 @views.route('/add_employee', methods=['GET', 'POST'])
 @login_required
-def add_employee():
 
-    # department_list = employees.query.with_entities(employees.department).distinct()
-    # formated_deptlist = []
+def add_employee():
 
     raw_data = employees.query.with_entities(employees.department).distinct()
     department_list = [item[0] for item in raw_data]
