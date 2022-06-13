@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import VARCHAR
 from .models import employees
 from . import db
 import json
@@ -25,34 +24,45 @@ def search():
     name_form = request.form.get('name_search')
 
     if page >= 1 and search_type == 'search_one':
+        print ('1')
         name_form = search_value
         result=search_one(page, name_form)
         
     elif page >= 1 and search_type == 'search_all':
         result=search_all(page)
+        print ('2')
 
     if request.method == 'POST' and request.form.get('Search') == 'Search':
+        
+        if search_type == 'search_all':
+            default_page = 1
+            print ('3')
+
+        else:
+            default_page = page
+            print ('4')
 
         search_type='search_one'
         search_value=name_form
-        result=search_one(page, name_form)
+        result=search_one(default_page, name_form)
 
-        if search_type == 'search_all':
-            default_page=1    
-        else:
-            default_page= result.page
+    
 
     if request.method == 'POST' and request.form.get('Search All') == 'Search All':
- 
-        search_type='search_all'
-        result=search_all(page)
 
         if search_type == 'search_one':
             default_page = 1
-        else:
-            default_page = result.page
+            print ('5')
 
-        flash('All employees listed')
+        else:
+            default_page = page
+            print ('6')
+
+        search_type='search_all'
+        result=search_all(default_page)
+
+
+        #flash('All employees listed')
 
     return render_template("search.html", user=current_user, result=result, search_value=search_value, search_type=search_type, default_page=default_page)
 
