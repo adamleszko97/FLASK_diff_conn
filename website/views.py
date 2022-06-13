@@ -16,6 +16,7 @@ def home():
 
 def search():
 
+    print(request.method)
     result=[]
     default_page = 2
     page = request.args.get('page', 1, type=int)
@@ -23,12 +24,12 @@ def search():
     search_type = request.args.get('search_type')
     name_form = request.form.get('name_search')
 
-    if page >= 1 and search_type == 'search_one':
+    if page >= 1 and search_type == 'search_one' and request.method == 'GET':
         print ('1')
         name_form = search_value
         result=search_one(page, name_form)
         
-    elif page >= 1 and search_type == 'search_all':
+    elif page >= 1 and search_type == 'search_all' and request.method == 'GET':
         result=search_all(page)
         print ('2')
 
@@ -62,7 +63,7 @@ def search():
         result=search_all(default_page)
 
 
-        #flash('All employees listed')
+        flash('All employees listed')
 
     return render_template("search.html", user=current_user, result=result, search_value=search_value, search_type=search_type, default_page=default_page)
 
